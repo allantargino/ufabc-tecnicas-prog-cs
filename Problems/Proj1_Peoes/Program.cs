@@ -10,11 +10,13 @@ namespace Proj1_Peoes
         {
             Console.WriteLine("Start!");
 
-            var a = new GameConfiguration();
+            var gameConfiguration = new BoardColumnsGenerator();
+            var conf9 = gameConfiguration.GetGameConfiguration(9);
+
+            Console.WriteLine($"Configuração {nameof(conf9)}: {conf9.ToString()}");
 
             Console.ReadLine();
         }
-
 
 
         [DebuggerDisplay("{PositionPlayer1}-{PositionPlayer2}")]
@@ -29,11 +31,26 @@ namespace Proj1_Peoes
             }
         }
 
-        public class ColumnConfiguration
+        public class BoardConfiguration
+        {
+            private Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration> configuration;
+
+            public BoardConfiguration(PlayerConfiguration c1, PlayerConfiguration c2, PlayerConfiguration c3)
+            {
+                configuration = new Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration>(c1, c2, c3);
+            }
+
+            public override string ToString()
+            {
+                return $"{configuration.Item1.ToString()}, {configuration.Item2.ToString()}, {configuration.Item3.ToString()}";
+            }
+        }
+
+        public class ColumnGenerator
         {
             Dictionary<int, PlayerConfiguration> configuration;
 
-            public ColumnConfiguration()
+            public ColumnGenerator()
             {
                 configuration = GenerateColumn();
             }
@@ -72,20 +89,20 @@ namespace Proj1_Peoes
             }
         }
 
-        public class GameConfiguration
+        public class BoardColumnsGenerator
         {
-            ColumnConfiguration ColumnConfiguration;
-            Dictionary<int, Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration>> GameConfigurations;
+            private ColumnGenerator ColumnGenerator;
+            private Dictionary<int, BoardConfiguration> BoardConfigurations;
 
-            public GameConfiguration()
+            public BoardColumnsGenerator()
             {
-                ColumnConfiguration = new ColumnConfiguration();
-                GameConfigurations = GenerateConfiguration();
+                ColumnGenerator = new ColumnGenerator();
+                BoardConfigurations = GenerateConfiguration();
             }
 
-            private Dictionary<int, Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration>> GenerateConfiguration()
+            private Dictionary<int, BoardConfiguration> GenerateConfiguration()
             {
-                var configurations = new Dictionary<int, Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration>>();
+                var configurations = new Dictionary<int, BoardConfiguration>();
 
                 for (int i = 0; i < 20; i++)
                 {
@@ -95,19 +112,27 @@ namespace Proj1_Peoes
                         {
                             int id = (int)(i * Math.Pow(20, 2) + j * Math.Pow(20, 1) + k + 1);
 
-                            var c1 = ColumnConfiguration.GetPlayerConfiguration(i+1);
-                            var c2 = ColumnConfiguration.GetPlayerConfiguration(j+1);
-                            var c3 = ColumnConfiguration.GetPlayerConfiguration(k+1);
+                            var c1 = ColumnGenerator.GetPlayerConfiguration(i+1);
+                            var c2 = ColumnGenerator.GetPlayerConfiguration(j+1);
+                            var c3 = ColumnGenerator.GetPlayerConfiguration(k+1);
 
-                            configurations.Add(id, new Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration>(c1, c2, c3));
+                            configurations.Add(id, new BoardConfiguration(c1, c2, c3));
 
-                            Console.WriteLine($"{id}: {c1}, {c2}, {c3}");
+                            Logger.WriteLine($"{id}: {c1}, {c2}, {c3}");
                         }
                     }
                 }
 
                 return configurations;
             }
+
+            public BoardConfiguration GetGameConfiguration(int id)
+            {
+                if (id < 1 || id > 8000) throw new ArgumentOutOfRangeException(nameof(id));
+
+                return BoardConfigurations[id];
+            }
+
         }
     }
 }
