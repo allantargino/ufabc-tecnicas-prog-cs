@@ -6,7 +6,7 @@ namespace Proj1_Peoes
 {
     static class Logger
     {
-        private static bool isEnabled = true;
+        public static bool isEnabled = false;
 
         public static void WriteLine(string content)
         {
