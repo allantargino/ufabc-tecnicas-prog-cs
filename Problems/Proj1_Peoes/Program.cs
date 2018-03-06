@@ -10,11 +10,17 @@ namespace Proj1_Peoes
 
             Console.WriteLine("Start!");
 
-            var gameConfiguration = new BoardColumnsGenerator();
+            var columnGenerator = new ColumnManager();
+            var gameConfiguration = new BoardColumnsGenerator(columnGenerator);
 
-            var conf9 = gameConfiguration.GetGameConfiguration(9);
+            var columnGraphGenerator = new ColumnGraphGenerator(columnGenerator);
 
-            Console.WriteLine($"Configuração {nameof(conf9)}: {conf9.ToString()}");
+            columnGraphGenerator.GenerateSingleColumnGraph();
+
+            //var conf9 = gameConfiguration.GetGameConfiguration(9);
+            //Console.WriteLine($"Configuração {nameof(conf9)}: {conf9.ToString()}");
+
+
 
             Console.ReadLine();
         }
