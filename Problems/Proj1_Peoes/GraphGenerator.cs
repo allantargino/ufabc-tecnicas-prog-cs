@@ -35,7 +35,7 @@ namespace Proj1_Peoes
         {
             var validMoviments = new List<BoardConfiguration>();
 
-            if (boardConfiguration.IsTerminal)
+            if (boardConfiguration.IsTerminal(player))
                 return validMoviments;
 
             for (int i = 0; i <= 2; i++)
@@ -45,7 +45,6 @@ namespace Proj1_Peoes
                 k[0] = boardConfiguration.Column1;
                 k[1] = boardConfiguration.Column2;
                 k[2] = boardConfiguration.Column3;
-
 
                 var validMovimentsForK = ColumnValidMovimentsGenerator.GetValidMovimentsFor(player, k[i]);
                 foreach (var moviment in validMovimentsForK)
