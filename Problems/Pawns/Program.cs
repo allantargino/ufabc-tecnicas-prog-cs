@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
     partial class Program
     {
@@ -18,6 +18,9 @@ namespace Proj1_Peoes
 
             var graphValidMovimentsGenerator = new GraphValidMovimentsGenerator(columnValidMovimentsGenerator, boardColumnsGenerator);
             graphValidMovimentsGenerator.GenerateValidMoviments();
+
+            var graphGenerator = new GraphGenerator(graphValidMovimentsGenerator);
+            graphGenerator.GenerateGraph();
 
             Console.ReadLine();
         }

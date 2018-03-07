@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
     [DebuggerDisplay("{PositionPlayer1}-{PositionPlayer2}")]
     public class PlayerConfiguration : IEquatable<PlayerConfiguration>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
     static class Logger
     {

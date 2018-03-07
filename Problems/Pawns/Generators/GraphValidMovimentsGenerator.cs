@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
     public class GraphValidMovimentsGenerator
     {
@@ -70,6 +70,17 @@ namespace Proj1_Peoes
 
             if (player == 2)
                 ValidMovimentsPlayer2.Add(key, value);
+        }
+
+        public IEnumerable<BoardConfiguration> GetValidMoviments(int player, BoardConfiguration configuration)
+        {
+            if (player == 1)
+                return ValidMovimentsPlayer1[configuration];
+
+            if (player == 2)
+                return ValidMovimentsPlayer2[configuration];
+
+            throw new NotImplementedException();
         }
     }
 }

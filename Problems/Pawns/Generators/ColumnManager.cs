@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
     public class ColumnManager
     {
