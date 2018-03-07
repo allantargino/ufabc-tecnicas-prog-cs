@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Proj1_Peoes
 {
-    public class BoardConfiguration
+    public class BoardConfiguration:IEquatable<BoardConfiguration>
     {
         private Tuple<PlayerConfiguration, PlayerConfiguration, PlayerConfiguration> configuration;
 
@@ -26,6 +27,30 @@ namespace Proj1_Peoes
         public override string ToString()
         {
             return $"{configuration.Item1.ToString()}, {configuration.Item2.ToString()}, {configuration.Item3.ToString()}";
+        }
+
+
+        public override int GetHashCode()
+        {
+            var hashCode = 456749573;
+            hashCode = hashCode * -1521134295 + EqualityComparer<PlayerConfiguration>.Default.GetHashCode(Column1);
+            hashCode = hashCode * -1521134295 + EqualityComparer<PlayerConfiguration>.Default.GetHashCode(Column2);
+            hashCode = hashCode * -1521134295 + EqualityComparer<PlayerConfiguration>.Default.GetHashCode(Column3);
+            return hashCode;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var configuration = obj as BoardConfiguration;
+            return Equals(configuration);
+        }
+
+        public bool Equals(BoardConfiguration other)
+        {
+            return other != null &&
+                   EqualityComparer<PlayerConfiguration>.Default.Equals(Column1, other.Column1) &&
+                   EqualityComparer<PlayerConfiguration>.Default.Equals(Column2, other.Column2) &&
+                   EqualityComparer<PlayerConfiguration>.Default.Equals(Column3, other.Column3);
         }
     }
 }

@@ -16,8 +16,8 @@ namespace Proj1_Peoes
             var columnValidMovimentsGenerator = new ColumnValidMovimentsGenerator(columnGenerator);
             columnValidMovimentsGenerator.GenerateValidMoviments();
 
-            var graphGenerator = new GraphGenerator(columnValidMovimentsGenerator, boardColumnsGenerator);
-            graphGenerator.GenerateValidMoviments(); //TODO: Test
+            var graphValidMovimentsGenerator = new GraphValidMovimentsGenerator(columnValidMovimentsGenerator, boardColumnsGenerator);
+            graphValidMovimentsGenerator.GenerateValidMoviments();
 
             Console.ReadLine();
         }

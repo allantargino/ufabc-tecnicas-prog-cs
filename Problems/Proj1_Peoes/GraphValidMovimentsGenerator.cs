@@ -4,13 +4,20 @@ using System.Text;
 
 namespace Proj1_Peoes
 {
-    public class GraphGenerator
+    public class GraphValidMovimentsGenerator
     {
-        public ColumnValidMovimentsGenerator ColumnValidMovimentsGenerator { get; }
-        public BoardColumnsGenerator BoardColumnsGenerator { get; }
+        private ColumnValidMovimentsGenerator ColumnValidMovimentsGenerator { get; }
+        private BoardColumnsGenerator BoardColumnsGenerator { get; }
 
-        public GraphGenerator(ColumnValidMovimentsGenerator columnValidMovimentsGenerator, BoardColumnsGenerator boardColumnsGenerator)
+        private IDictionary<BoardConfiguration, IEnumerable<BoardConfiguration>> ValidMovimentsPlayer1 { get; }
+        private IDictionary<BoardConfiguration, IEnumerable<BoardConfiguration>> ValidMovimentsPlayer2 { get; }
+
+
+        public GraphValidMovimentsGenerator(ColumnValidMovimentsGenerator columnValidMovimentsGenerator, BoardColumnsGenerator boardColumnsGenerator)
         {
+            ValidMovimentsPlayer1 = new Dictionary<BoardConfiguration, IEnumerable<BoardConfiguration>>();
+            ValidMovimentsPlayer2 = new Dictionary<BoardConfiguration, IEnumerable<BoardConfiguration>>();
+
             ColumnValidMovimentsGenerator = columnValidMovimentsGenerator;
             BoardColumnsGenerator = boardColumnsGenerator;
         }
@@ -24,11 +31,9 @@ namespace Proj1_Peoes
                     var configuration = BoardColumnsGenerator.GetGameConfiguration(i);
                     var validMoviments = GenerateValidMovimentsForBoardConfiguration(player, configuration);
 
-                    //Add
+                    SaveValidMoviments(player, configuration, validMoviments);
                 }
-
             }
-
         }
 
         private IEnumerable<BoardConfiguration> GenerateValidMovimentsForBoardConfiguration(int player, BoardConfiguration boardConfiguration)
@@ -56,6 +61,15 @@ namespace Proj1_Peoes
             }
 
             return validMoviments;
+        }
+
+        private void SaveValidMoviments(int player, BoardConfiguration key, IEnumerable<BoardConfiguration> value)
+        {
+            if (player == 1)
+                ValidMovimentsPlayer1.Add(key, value);
+
+            if (player == 2)
+                ValidMovimentsPlayer2.Add(key, value);
         }
     }
 }
