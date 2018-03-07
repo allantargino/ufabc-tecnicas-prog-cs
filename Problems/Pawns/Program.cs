@@ -8,20 +8,33 @@ namespace Pawns
         {
             Logger.isEnabled = false;
 
-            Console.WriteLine("Start!");
+            Console.WriteLine("Started!");
 
-            var columnGenerator = new ColumnManager();
-            var boardColumnsGenerator = new BoardColumnsGenerator(columnGenerator);
+            // Player Configuration Enumeration
+            var playerConfigurationGenerator = new PlayerConfigurationGenerator();
+            var playerConfigurationEnumeration = playerConfigurationGenerator.Enumerate();
 
-            var columnValidMovimentsGenerator = new ColumnValidMovimentsGenerator(columnGenerator);
-            columnValidMovimentsGenerator.GenerateValidMoviments();
+            // Player Moviment Enumeration
+            var playerMovimentGenerator = new PlayerMovimentGenerator(playerConfigurationEnumeration);
+            var playerMovimentEnumeration = playerMovimentGenerator.Enumerate();
 
-            var graphValidMovimentsGenerator = new GraphValidMovimentsGenerator(columnValidMovimentsGenerator, boardColumnsGenerator);
-            graphValidMovimentsGenerator.GenerateValidMoviments();
 
-            var graphGenerator = new GraphGenerator(graphValidMovimentsGenerator);
-            graphGenerator.GenerateGraph();
+            // Board Configuration Enumeration
+            var boardColumnsGenerator = new BoardConfigurationGenerator(playerConfigurationEnumeration);
+            var BoardConfigurationEnumeration = boardColumnsGenerator.Enumerate();
 
+            // Board Moviment Enumeration
+            var boardMovimentGenerator = new BoardMovimentGenerator(playerMovimentEnumeration, BoardConfigurationEnumeration);
+            var boardMovimentEnumeration = boardMovimentGenerator.Enumerate();
+
+
+            // State Configuration Enumeration
+
+            // State Moviment Enumeration
+            //var graphGenerator = new GraphGenerator(graphValidMovimentsGenerator);
+            //graphGenerator.GenerateGraph();
+
+            Console.WriteLine("Finished!");
             Console.ReadLine();
         }
 

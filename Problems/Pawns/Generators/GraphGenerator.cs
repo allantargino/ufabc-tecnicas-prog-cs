@@ -5,15 +5,15 @@ namespace Pawns
 {
     public class GraphGenerator
     {
-        private GraphValidMovimentsGenerator graphValidMovimentsGenerator;
+        private BoardMovimentGenerator graphValidMovimentsGenerator;
         private IEnumerable<State> States;
 
-        public GraphGenerator(GraphValidMovimentsGenerator graphValidMovimentsGenerator)
+        public GraphGenerator(BoardMovimentGenerator graphValidMovimentsGenerator)
         {
             this.graphValidMovimentsGenerator = graphValidMovimentsGenerator;
         }
 
-        public void GenerateGraph()
+        public void Enumerate()
         {
             var graph = new Dictionary<State, IEnumerable<State>>();
 
@@ -21,8 +21,8 @@ namespace Pawns
             {
                 var validStates = new List<State>();
 
-                foreach (var validMoviment in graphValidMovimentsGenerator.GetValidMoviments(state.Player, state.Configuration))
-                    validStates.Add(new State(1 - state.Player, validMoviment));
+                //foreach (var validMoviment in graphValidMovimentsGenerator.GetValidMoviments(state.Player, state.Configuration))
+                //    validStates.Add(new State(1 - state.Player, validMoviment));
 
                 graph.Add(state, validStates);
             }
