@@ -27,16 +27,12 @@ namespace Proj1_Peoes
                 var validMoviments1 = GenerateValidMovimentsForPlayer1(moviment);
                 ValidMovimentsPlayer1.Add(moviment, validMoviments1);
 
-                //var validMoviments2 = GenerateValidMovimentsForPlayer2(moviment);
-                //ValidMovimentsPlayer2.Add(moviment, validMoviments2);
+                var validMoviments2 = GenerateValidMovimentsForPlayer2(moviment);
+                ValidMovimentsPlayer2.Add(moviment, validMoviments2);
 
             }
         }
-
-        private IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer2(PlayerConfiguration moviment)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer1(PlayerConfiguration playerConfiguration)
         {
@@ -61,6 +57,33 @@ namespace Proj1_Peoes
             for (int i = pos1 + 1; i <= limite - 1; i++)
             {
                 validMoviments.Add(ColumnManager.GetPlayerConfiguration(i, pos2));
+            }
+            return validMoviments;
+        }
+
+        public IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer2(PlayerConfiguration playerConfiguration)
+        {
+            List<PlayerConfiguration> validMoviments = new List<PlayerConfiguration>();
+
+            int pos1 = playerConfiguration.PositionPlayer1;
+            int pos2 = playerConfiguration.PositionPlayer2;
+
+            if (pos2 == 0) return validMoviments;
+            if (pos2 == 1 && pos2 == 0) return validMoviments;
+
+            if (pos2 == pos1 + 1)
+            {
+                validMoviments.Add(ColumnManager.GetPlayerConfiguration(pos1, pos2 - 2));
+                return validMoviments;
+            }
+
+            int limite;
+            if (pos1 < pos2) limite = pos1;
+            else limite = -1;
+
+            for (int i = pos2 - 1; i <= limite + 1; i--)
+            {
+                validMoviments.Add(ColumnManager.GetPlayerConfiguration(pos1, i));
             }
             return validMoviments;
         }
