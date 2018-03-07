@@ -7,16 +7,19 @@ namespace Proj1_Peoes
     {
         private ColumnManager ColumnGenerator;
         private Dictionary<int, BoardConfiguration> BoardConfigurations;
+        private Dictionary<BoardConfiguration, int> BoardIndex;
 
         public BoardColumnsGenerator(ColumnManager columnGenerator)
         {
             ColumnGenerator = columnGenerator;
-            BoardConfigurations = GenerateConfiguration();
+
+            GenerateConfiguration();
         }
 
-        private Dictionary<int, BoardConfiguration> GenerateConfiguration()
+        private void GenerateConfiguration()
         {
-            var configurations = new Dictionary<int, BoardConfiguration>();
+            BoardConfigurations = new Dictionary<int, BoardConfiguration>();
+            BoardIndex = new Dictionary<BoardConfiguration, int>();
 
             for (int i = 0; i < 20; i++)
             {
@@ -30,14 +33,16 @@ namespace Proj1_Peoes
                         var c2 = ColumnGenerator.GetPlayerConfiguration(j + 1);
                         var c3 = ColumnGenerator.GetPlayerConfiguration(k + 1);
 
-                        configurations.Add(id, new BoardConfiguration(c1, c2, c3));
+                        var configuration = new BoardConfiguration(c1, c2, c3);
+
+                        BoardConfigurations.Add(id, configuration);
+
+                        BoardIndex.Add(configuration, id);
 
                         Logger.WriteLine($"{id}: {c1}, {c2}, {c3}");
                     }
                 }
             }
-
-            return configurations;
         }
 
         public BoardConfiguration GetGameConfiguration(int id)
@@ -47,7 +52,11 @@ namespace Proj1_Peoes
             return BoardConfigurations[id];
         }
 
-        //TODO: Função inversa de dado BoardConfiguration -> id
+        public BoardConfiguration GetGameConfiguration(PlayerConfiguration c1, PlayerConfiguration c2, PlayerConfiguration c3)
+        {
+            var index = this.BoardIndex[new BoardConfiguration(c1, c2, c3)];
+            return GetGameConfiguration(index);
+        }
 
     }
 }

@@ -11,11 +11,13 @@ namespace Proj1_Peoes
             Console.WriteLine("Start!");
 
             var columnGenerator = new ColumnManager();
-            var gameConfiguration = new BoardColumnsGenerator(columnGenerator);
+            var boardColumnsGenerator = new BoardColumnsGenerator(columnGenerator);
 
-            var columnGraphGenerator = new ColumnGraphGenerator(columnGenerator);
+            var columnValidMovimentsGenerator = new ColumnValidMovimentsGenerator(columnGenerator);
+            columnValidMovimentsGenerator.GenerateValidMoviments();
 
-            columnGraphGenerator.GenerateSingleColumnGraph();
+            var graphGenerator = new GraphGenerator(columnValidMovimentsGenerator, boardColumnsGenerator);
+            graphGenerator.GenerateValidMoviments(); //TODO: Test
 
             Console.ReadLine();
         }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Proj1_Peoes
 {
-    public class ColumnGraphGenerator
+    public class ColumnValidMovimentsGenerator
     {
         private ColumnManager ColumnManager { get; }
 
-        public IDictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>> ValidMovimentsPlayer1 { get; }
-        public IDictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>> ValidMovimentsPlayer2 { get; }
+        private IDictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>> ValidMovimentsPlayer1 { get; }
+        private IDictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>> ValidMovimentsPlayer2 { get; }
 
-        public ColumnGraphGenerator(ColumnManager columnGenerator)
+        public ColumnValidMovimentsGenerator(ColumnManager columnGenerator)
         {
             ValidMovimentsPlayer1 = new Dictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>>();
             ValidMovimentsPlayer2 = new Dictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>>();
@@ -18,7 +18,7 @@ namespace Proj1_Peoes
             ColumnManager = columnGenerator;
         }
 
-        public void GenerateSingleColumnGraph()
+        public void GenerateValidMoviments()
         {
             foreach (var playerConfiguration in ColumnManager.Configuration)
             {
@@ -29,12 +29,24 @@ namespace Proj1_Peoes
 
                 var validMoviments2 = GenerateValidMovimentsForPlayer2(moviment);
                 ValidMovimentsPlayer2.Add(moviment, validMoviments2);
-
             }
         }
-        
 
-        public IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer1(PlayerConfiguration playerConfiguration)
+        public IEnumerable<PlayerConfiguration> GetValidMovimentsFor(int player, PlayerConfiguration configuration)
+        {
+            if (player < 1 || player > 2) throw new ArgumentOutOfRangeException(nameof(player));
+
+            if (player == 1)
+                return ValidMovimentsPlayer1[configuration];
+
+            if (player == 2)
+                return ValidMovimentsPlayer2[configuration];
+
+            throw new NotImplementedException();
+        }
+
+
+        private IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer1(PlayerConfiguration playerConfiguration)
         {
             List<PlayerConfiguration> validMoviments = new List<PlayerConfiguration>();
 
@@ -61,7 +73,7 @@ namespace Proj1_Peoes
             return validMoviments;
         }
 
-        public IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer2(PlayerConfiguration playerConfiguration)
+        private IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer2(PlayerConfiguration playerConfiguration)
         {
             List<PlayerConfiguration> validMoviments = new List<PlayerConfiguration>();
 
