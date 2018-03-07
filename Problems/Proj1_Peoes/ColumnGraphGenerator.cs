@@ -69,7 +69,7 @@ namespace Proj1_Peoes
             int pos2 = playerConfiguration.PositionPlayer2;
 
             if (pos2 == 0) return validMoviments;
-            if (pos2 == 1 && pos2 == 0) return validMoviments;
+            if (pos2 == 1 && pos1 == 0) return validMoviments;
 
             if (pos2 == pos1 + 1)
             {
@@ -81,7 +81,7 @@ namespace Proj1_Peoes
             if (pos1 < pos2) limite = pos1;
             else limite = -1;
 
-            for (int i = pos2 - 1; i <= limite + 1; i--)
+            for (int i = pos2 - 1; i >= limite + 1; i--)
             {
                 validMoviments.Add(ColumnManager.GetPlayerConfiguration(pos1, i));
             }

@@ -17,11 +17,6 @@ namespace Proj1_Peoes
 
             columnGraphGenerator.GenerateSingleColumnGraph();
 
-            //var conf9 = gameConfiguration.GetGameConfiguration(9);
-            //Console.WriteLine($"Configuração {nameof(conf9)}: {conf9.ToString()}");
-
-
-
             Console.ReadLine();
         }
 
