@@ -26,5 +26,10 @@ namespace Pawns
             else
                 return false;
         }
+
+        public static bool IsTerminal(this State state)
+        {
+            return state.Configuration.IsTerminal(state.Player);
+        }
     }
 }

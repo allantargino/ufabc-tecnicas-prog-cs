@@ -31,9 +31,16 @@ namespace Pawns
             var stateMovimentEnumeration = stateMovimentGenerator.Enumerate();
 
             // Search Winning Strategy
+            Search(stateMovimentEnumeration, BoardConfigurationEnumeration);
 
             Console.WriteLine("Finished!");
             Console.ReadLine();
+        }
+
+        private static void Search(StateMovimentEnumeration states, BoardConfigurationEnumeration board)
+        {
+            var start = new State(1, board.GetGameConfiguration(1));
+            //var startState = states.StateMoviments[start];
         }
 
     }

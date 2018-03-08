@@ -6,6 +6,6 @@ namespace Pawns
 {
     public class StateMovimentEnumeration
     {
-        public IDictionary<State, IEnumerable<State>> ValidMovimentsPlayers { get; set; }
+        public IDictionary<State, IEnumerable<State>> StateMoviments { get; set; }
     }
 }

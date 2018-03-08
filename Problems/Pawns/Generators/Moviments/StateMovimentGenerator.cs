@@ -32,7 +32,7 @@ namespace Pawns
 
             return new StateMovimentEnumeration()
             {
-                ValidMovimentsPlayers = validMovimentsPlayers
+                StateMoviments = validMovimentsPlayers
             };
         }
     }
