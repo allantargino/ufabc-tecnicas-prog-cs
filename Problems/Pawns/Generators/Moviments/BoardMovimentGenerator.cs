@@ -20,7 +20,7 @@ namespace Pawns
             var validMovimentsPlayer1 = new Dictionary<BoardConfiguration, IEnumerable<BoardConfiguration>>();
             var validMovimentsPlayer2 = new Dictionary<BoardConfiguration, IEnumerable<BoardConfiguration>>();
 
-            for (int player = 1; player <= 2; player++)
+            for (int player = 0; player <= 1; player++)
             {
                 for (int i = 1; i <= 8000; i++)
                 {
@@ -28,10 +28,10 @@ namespace Pawns
                     var validMoviments = GenerateValidMovimentsForBoardConfiguration(player, configuration);
 
                     //Save
-                    if (player == 1)
+                    if (player == 0)
                         validMovimentsPlayer1.Add(configuration, validMoviments);
 
-                    if (player == 2)
+                    if (player == 1)
                         validMovimentsPlayer2.Add(configuration, validMoviments);
                 }
             }

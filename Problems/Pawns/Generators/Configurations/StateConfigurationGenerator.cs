@@ -16,7 +16,7 @@ namespace Pawns
         public StateConfigurationEnumeration Enumerate()
         {
             var stateConfigurations = new List<State>();
-            for (int player= 1; player <=2; player++)
+            for (int player= 0; player <=1; player++)
             {
                 foreach (var item in boardConfigurationEnumeration.BoardConfigurations)
                 {

@@ -8,10 +8,10 @@ namespace Pawns
     {
         public static bool IsTerminal(this PlayerConfiguration playerConfiguration, int player)
         {
-            if (player == 1)
+            if (player == 0)
                 return playerConfiguration.PositionPlayer1 == 4;
 
-            if (player == 2)
+            if (player == 1)
                 return playerConfiguration.PositionPlayer2 == 0;
 
             throw new NotImplementedException();
@@ -29,7 +29,8 @@ namespace Pawns
 
         public static bool IsTerminal(this State state)
         {
-            return state.Configuration.IsTerminal(state.Player);
+            var terminal = state.Configuration.IsTerminal(state.Player);
+            return terminal;
         }
     }
 }

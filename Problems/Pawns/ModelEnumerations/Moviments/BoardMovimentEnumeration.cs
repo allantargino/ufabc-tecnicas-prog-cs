@@ -12,10 +12,10 @@ namespace Pawns
 
         public IEnumerable<BoardConfiguration> GetValidMoviments(int player, BoardConfiguration configuration)
         {
-            if (player == 1)
+            if (player == 0)
                 return ValidMovimentsPlayer1[configuration];
 
-            if (player == 2)
+            if (player == 1)
                 return ValidMovimentsPlayer2[configuration];
 
             throw new NotImplementedException();

@@ -6,12 +6,12 @@ namespace Pawns
 {
     public class NodeProperties
     {
-        public bool Visited { get; set; }
+        public bool WasVisited { get; set; }
         public bool HasWinningStrategy { get; set; }
 
         public NodeProperties()
         {
-            Visited = false;
+            WasVisited = false;
         }
     }
 }
