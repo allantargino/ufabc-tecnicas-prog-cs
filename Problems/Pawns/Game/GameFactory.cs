@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Pawns
 {
@@ -50,18 +51,84 @@ namespace Pawns
                     );
         }
 
-        public static State GetPossibleState(int player, int column, int moviment, State currentState)
+        public static State GetPossibleState(int column, int moviment, State currentState)
         {
-            if (player < 0 || player > 1) throw new ArgumentOutOfRangeException(nameof(player));
+            var possibleStates = stateMovimentEnumeration.StateMoviments[currentState];
 
-            
+            if (currentState.Player == 0)
+            {
+                switch (column)
+                {
+                    case 1:
+                        possibleStates.First(
+                            s =>
+                            s.Configuration.Column1.PositionPlayer1 == moviment &&
+                            s.Configuration.Column2.PositionPlayer1 == currentState.Configuration.Column2.PositionPlayer1 &&
+                            s.Configuration.Column3.PositionPlayer1 == currentState.Configuration.Column3.PositionPlayer1
+                            );
+                        break;
+                    case 2:
+                        possibleStates.First(
+                            s =>
+                            s.Configuration.Column1.PositionPlayer1 == currentState.Configuration.Column1.PositionPlayer1 &&
+                            s.Configuration.Column2.PositionPlayer1 == moviment &&
+                            s.Configuration.Column3.PositionPlayer1 == currentState.Configuration.Column3.PositionPlayer1
+                            );
+                        break;
+                    case 3:
+                        possibleStates.First(
+                            s =>
+                            s.Configuration.Column1.PositionPlayer1 == currentState.Configuration.Column1.PositionPlayer1 &&
+                            s.Configuration.Column2.PositionPlayer1 == currentState.Configuration.Column2.PositionPlayer1 &&
+                            s.Configuration.Column3.PositionPlayer1 == moviment
+                            );
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (column)
+                {
+                    case 1:
+                        possibleStates.First(
+                            s =>
+                            s.Configuration.Column1.PositionPlayer2 == moviment &&
+                            s.Configuration.Column2.PositionPlayer2 == currentState.Configuration.Column2.PositionPlayer2 &&
+                            s.Configuration.Column3.PositionPlayer2 == currentState.Configuration.Column3.PositionPlayer2
+                            );
+                        break;
+                    case 2:
+                        possibleStates.First(
+                            s =>
+                            s.Configuration.Column1.PositionPlayer2 == currentState.Configuration.Column1.PositionPlayer2 &&
+                            s.Configuration.Column2.PositionPlayer2 == moviment &&
+                            s.Configuration.Column3.PositionPlayer2 == currentState.Configuration.Column3.PositionPlayer2
+                            );                                    
+                        break;                                    
+                    case 3:                                       
+                        possibleStates.First(                     
+                            s =>                                  
+                            s.Configuration.Column1.PositionPlayer2 == currentState.Configuration.Column1.PositionPlayer2 &&
+                            s.Configuration.Column2.PositionPlayer2 == currentState.Configuration.Column2.PositionPlayer2 &&
+                            s.Configuration.Column3.PositionPlayer2 == moviment
+                            );
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-            return new State(player,
-                BoardConfigurationEnumeration.GetGameConfiguration(
-                    new PlayerConfiguration(0, 4),
-                    new PlayerConfiguration(0, 4),
-                    new PlayerConfiguration(0, 4))
-                    );
+            return null;
+
+
+            //return new State(currentState.Player,
+            //    BoardConfigurationEnumeration.GetGameConfiguration(
+            //        new PlayerConfiguration(0, 4),
+            //        new PlayerConfiguration(0, 4),
+            //        new PlayerConfiguration(0, 4))
+            //        );
         }
 
         public static GameAdvisor GenerateGameAdvisor()
