@@ -1,50 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
-    public class ColumnValidMovimentsGenerator
+    public class PlayerMovimentGenerator
     {
-        private ColumnManager ColumnManager { get; }
+        private PlayerConfigurationEnumeration _playerConfigurationEnumeration { get; }
 
-        private IDictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>> ValidMovimentsPlayer1 { get; }
-        private IDictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>> ValidMovimentsPlayer2 { get; }
-
-        public ColumnValidMovimentsGenerator(ColumnManager columnGenerator)
+        public PlayerMovimentGenerator(PlayerConfigurationEnumeration playerConfigurationEnumeration)
         {
-            ValidMovimentsPlayer1 = new Dictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>>();
-            ValidMovimentsPlayer2 = new Dictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>>();
-
-            ColumnManager = columnGenerator;
+            _playerConfigurationEnumeration = playerConfigurationEnumeration;
         }
 
-        public void GenerateValidMoviments()
+        public PlayerMovimentEnumeration Enumerate()
         {
-            foreach (var playerConfiguration in ColumnManager.Configuration)
+            var validMovimentsPlayer1 = new Dictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>>();
+            var validMovimentsPlayer2 = new Dictionary<PlayerConfiguration, IEnumerable<PlayerConfiguration>>();
+
+            foreach (var playerConfiguration in _playerConfigurationEnumeration.PlayerConfigurations)
             {
                 var moviment = playerConfiguration.Value;
 
                 var validMoviments1 = GenerateValidMovimentsForPlayer1(moviment);
-                ValidMovimentsPlayer1.Add(moviment, validMoviments1);
+                validMovimentsPlayer1.Add(moviment, validMoviments1);
 
                 var validMoviments2 = GenerateValidMovimentsForPlayer2(moviment);
-                ValidMovimentsPlayer2.Add(moviment, validMoviments2);
+                validMovimentsPlayer2.Add(moviment, validMoviments2);
             }
+
+            return new PlayerMovimentEnumeration()
+            {
+                ValidMovimentsPlayer1 = validMovimentsPlayer1,
+                ValidMovimentsPlayer2 = validMovimentsPlayer2
+            };
         }
-
-        public IEnumerable<PlayerConfiguration> GetValidMovimentsFor(int player, PlayerConfiguration configuration)
-        {
-            if (player < 1 || player > 2) throw new ArgumentOutOfRangeException(nameof(player));
-
-            if (player == 1)
-                return ValidMovimentsPlayer1[configuration];
-
-            if (player == 2)
-                return ValidMovimentsPlayer2[configuration];
-
-            throw new NotImplementedException();
-        }
-
 
         private IEnumerable<PlayerConfiguration> GenerateValidMovimentsForPlayer1(PlayerConfiguration playerConfiguration)
         {
@@ -58,7 +47,7 @@ namespace Proj1_Peoes
 
             if (pos1 == pos2 - 1)
             {
-                validMoviments.Add(ColumnManager.GetPlayerConfiguration(pos1 + 2, pos2));
+                validMoviments.Add(_playerConfigurationEnumeration.GetPlayerConfiguration(pos1 + 2, pos2));
                 return validMoviments;
             }
 
@@ -68,7 +57,7 @@ namespace Proj1_Peoes
 
             for (int i = pos1 + 1; i <= limite - 1; i++)
             {
-                validMoviments.Add(ColumnManager.GetPlayerConfiguration(i, pos2));
+                validMoviments.Add(_playerConfigurationEnumeration.GetPlayerConfiguration(i, pos2));
             }
             return validMoviments;
         }
@@ -85,7 +74,7 @@ namespace Proj1_Peoes
 
             if (pos2 == pos1 + 1)
             {
-                validMoviments.Add(ColumnManager.GetPlayerConfiguration(pos1, pos2 - 2));
+                validMoviments.Add(_playerConfigurationEnumeration.GetPlayerConfiguration(pos1, pos2 - 2));
                 return validMoviments;
             }
 
@@ -95,7 +84,7 @@ namespace Proj1_Peoes
 
             for (int i = pos2 - 1; i >= limite + 1; i--)
             {
-                validMoviments.Add(ColumnManager.GetPlayerConfiguration(pos1, i));
+                validMoviments.Add(_playerConfigurationEnumeration.GetPlayerConfiguration(pos1, i));
             }
             return validMoviments;
         }

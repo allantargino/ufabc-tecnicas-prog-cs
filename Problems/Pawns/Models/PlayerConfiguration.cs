@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Proj1_Peoes
+namespace Pawns
 {
     [DebuggerDisplay("{PositionPlayer1}-{PositionPlayer2}")]
     public class PlayerConfiguration : IEquatable<PlayerConfiguration>
@@ -43,17 +43,6 @@ namespace Proj1_Peoes
         {
             PositionPlayer1 = p1;
             PositionPlayer2 = p2;
-        }
-
-        internal bool IsTerminal(int player)
-        {
-            if (player == 1)
-                return PositionPlayer1 == 4;
-
-            if (player == 2)
-                return PositionPlayer1 == 0;
-
-            throw new NotImplementedException();
         }
     }
 }
