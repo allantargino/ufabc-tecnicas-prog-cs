@@ -1,22 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Pawns
 {
     static class Logger
     {
-        public static bool isEnabled = false;
+        public static bool consoleIsEnabled = false;
+        public static bool txtIsEnabled = false;
+
+        public static string path = "/mnt/c/temp/my_log.txt";
+
+        static Logger()
+        {
+            File.Delete(path);
+        }
 
         public static void WriteLine(string content)
         {
-            if (isEnabled)
-                Console.WriteLine(content);
+            if (!consoleIsEnabled)
+                return;
+
+            Console.WriteLine(content);
+        }
+
+        public static void LogLine(string content)
+        {
+            if (!txtIsEnabled)
+                return;
+
+            File.AppendAllText(path, content + "\n");
         }
 
         public static void DrawBoard(State currentState)
         {
-            if (!isEnabled)
+            if (!consoleIsEnabled)
                 return;
 
             Console.WriteLine($"Turn: {currentState.Player}");
