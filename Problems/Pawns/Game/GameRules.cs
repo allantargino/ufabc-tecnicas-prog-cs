@@ -32,5 +32,10 @@ namespace Pawns
             var terminal = state.Configuration.IsTerminal(state.Player);
             return terminal;
         }
+
+        public static bool IsGameOver(this State state)
+        {
+            return state.Configuration.IsTerminal(0) || state.Configuration.IsTerminal(1);
+        }
     }
 }
