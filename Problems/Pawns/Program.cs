@@ -45,7 +45,7 @@ namespace Pawns
                 if (currentState.Player == myPlayerNumber)
                 {
                     currentState = gameAdvisor.GetNextMoviment(lastState);
-                    var diff = GetDifferenceBetweenStates(lastState, currentState);
+                    var diff = GameRules.GetDifferenceBetweenStates(lastState, currentState);
                     Logger.LogLine(diff);
                     Console.WriteLine(diff);
                 }
@@ -53,7 +53,7 @@ namespace Pawns
                 {
                     var line = Console.ReadLine();
                     Logger.LogLine(line);
-                    currentState = GetPossibleMoviment(lastState, line);
+                    currentState = GameRules.GetPossibleMoviment(lastState, line);
                 }
 
                 //Logger.DrawBoard(currentState);
@@ -61,54 +61,6 @@ namespace Pawns
 
             Logger.LogLine("Game Over!");
         }
-
-
-
-        private static State GetPossibleMoviment(State currentState, string line)
-        {
-            var chars = line.Split(' ');
-
-            var column = int.Parse(chars[0]);
-            var moviment = int.Parse(chars[1]);
-
-            return GameFactory.GetPossibleState(column, moviment, currentState);
-        }
-
-        private static string GetDifferenceBetweenStates(State lastState, State currentState)
-        {
-            if (lastState == currentState)
-                return "0 0";
-
-            int column = -1;
-            int moviment = -1;
-
-            if (lastState.Configuration.Column1 != currentState.Configuration.Column1)
-            {
-                column = 1;
-                if (currentState.Player == 1)
-                    moviment = Math.Abs(lastState.Configuration.Column1.PositionPlayer1 - currentState.Configuration.Column1.PositionPlayer1);
-                else
-                    moviment = Math.Abs(lastState.Configuration.Column1.PositionPlayer2 - currentState.Configuration.Column1.PositionPlayer2);
-            }
-            else if (lastState.Configuration.Column2 != currentState.Configuration.Column2)
-            {
-                column = 2;
-                if (currentState.Player == 1)
-                    moviment = Math.Abs(lastState.Configuration.Column2.PositionPlayer1 - currentState.Configuration.Column2.PositionPlayer1);
-                else
-                    moviment = Math.Abs(lastState.Configuration.Column2.PositionPlayer2 - currentState.Configuration.Column2.PositionPlayer2);
-            }
-            else
-            {
-                column = 3;
-                if (currentState.Player == 1)
-                    moviment = Math.Abs(lastState.Configuration.Column3.PositionPlayer1 - currentState.Configuration.Column3.PositionPlayer1);
-                else
-                    moviment = Math.Abs(lastState.Configuration.Column3.PositionPlayer2 - currentState.Configuration.Column3.PositionPlayer2);
-
-            }
-
-            return $"{column} {moviment}";
-        }
+        
     }
 }
