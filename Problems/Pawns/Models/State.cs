@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Pawns
 {
+    [DebuggerDisplay("{Configuration}: w:{NodeProperties.HasWinningStrategy}, v:{NodeProperties.WasVisited}")]
     public class State : IEquatable<State>
     {
         public int Player { get; set; }

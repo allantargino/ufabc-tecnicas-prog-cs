@@ -12,14 +12,23 @@ namespace Pawns
         public GameAdvisor(StateMovimentEnumeration states, BoardConfigurationEnumeration board)
         {
             this._states = Search(states, board);
+
+
+            var state = GameFactory.GetInitialState(0);
+            var currentState = _states.StateMoviments.Keys.First(s => s.Equals(state));
+
         }
 
-        public State GetNextMoviment(State currentState)
+        public State GetNextMoviment(State currentOutsideState)
         {
+            var currentState = _states.StateMoviments.Keys.First(s => s.Equals(currentOutsideState));
             var possibleStates = this._states.StateMoviments[currentState];
 
+            if (possibleStates.Count() == 0 && !currentState.IsTerminal())
+                return currentState;
+
             if (currentState.NodeProperties.HasWinningStrategy)
-                possibleStates.First(s => !s.NodeProperties.HasWinningStrategy);
+                return possibleStates.First(s => !s.NodeProperties.HasWinningStrategy);
 
             return possibleStates.ElementAt(new Random().Next(0, possibleStates.Count() - 1));
         }
@@ -27,7 +36,8 @@ namespace Pawns
         private StateMovimentEnumeration Search(StateMovimentEnumeration states, BoardConfigurationEnumeration board)
         {
             foreach (var state in states.StateMoviments)
-                RecursiveDepthSearch(state.Key, states);
+                if(!state.Key.NodeProperties.WasVisited)
+                    RecursiveDepthSearch(state.Key, states);
 
             return states;
         }
@@ -38,17 +48,25 @@ namespace Pawns
                 return currentState.NodeProperties.HasWinningStrategy;
 
             if (currentState.IsTerminal())
-                return false;
+            {
+                currentState.NodeProperties.WasVisited = true;
+                currentState.NodeProperties.HasWinningStrategy = false;
+                return currentState.NodeProperties.HasWinningStrategy;
+            }
 
-            bool enemyWinningStrategy = false;
+            bool winningStrategy = false;
             var adjacentStates = statesEnumeration.StateMoviments[currentState];
             foreach (var adjacentState in adjacentStates)
             {
-                enemyWinningStrategy = enemyWinningStrategy || RecursiveDepthSearch(adjacentState, statesEnumeration);
+                var strategy = RecursiveDepthSearch(adjacentState, statesEnumeration);
+                if (strategy == false)
+                {
+                    winningStrategy = true;
+                }
             }
 
             currentState.NodeProperties.WasVisited = true;
-            currentState.NodeProperties.HasWinningStrategy = !enemyWinningStrategy;
+            currentState.NodeProperties.HasWinningStrategy = winningStrategy;
 
             return currentState.NodeProperties.HasWinningStrategy;
         }
