@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Pawns
 {
+    [DebuggerDisplay("{Configuration}")]
     public class State : IEquatable<State>
     {
         public int Player { get; set; }
         public BoardConfiguration Configuration { get; set; }
-        public NodeProperties NodeProperties { get; set; }
 
         public State(int player, BoardConfiguration configuration)
         {
             Player = player;
             Configuration = configuration;
-            NodeProperties = new NodeProperties();
         }
 
         #region IEquatable
