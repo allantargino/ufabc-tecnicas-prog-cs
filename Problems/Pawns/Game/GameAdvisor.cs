@@ -8,15 +8,22 @@ namespace Pawns
     public class GameAdvisor
     {
         private readonly StateMovimentEnumeration _states;
+        private readonly Dictionary<State, int> vencedor;
 
         public GameAdvisor(StateMovimentEnumeration states, BoardConfigurationEnumeration board)
         {
+            var terminais = states.StateMoviments.Keys.Where(s => s.IsTerminal());
+
+
+            vencedor = new Dictionary<State, int>();
             this._states = Search(states, board);
 
 
-            var state = GameFactory.GetInitialState(0);
-            var currentState = _states.StateMoviments.Keys.First(s => s.Equals(state));
+            var state = GameFactory.GetInitialState(1);
+            var vence = vencedor[state];
 
+            if (vence == 2)
+                throw new NotImplementedException("busca não funcionou");
         }
 
         public State GetNextMoviment(State currentOutsideState)
@@ -24,11 +31,18 @@ namespace Pawns
             var currentState = _states.StateMoviments.Keys.First(s => s.Equals(currentOutsideState));
             var possibleStates = this._states.StateMoviments[currentState];
 
-            if (possibleStates.Count() == 0 && !currentState.IsTerminal())
+            if (possibleStates.Count() == 0 && !currentState.IsGameOver())
                 return currentState;
 
-            if (currentState.NodeProperties.HasWinningStrategy)
-                return possibleStates.First(s => !s.NodeProperties.HasWinningStrategy);
+            if (vencedor[currentState] == 3)
+            {
+                foreach (var item in possibleStates)
+                {
+                    var cod = vencedor[item];
+                    if (cod == 2)
+                        return item;
+                }
+            }
 
             return possibleStates.ElementAt(new Random().Next(0, possibleStates.Count() - 1));
         }
@@ -36,39 +50,35 @@ namespace Pawns
         private StateMovimentEnumeration Search(StateMovimentEnumeration states, BoardConfigurationEnumeration board)
         {
             foreach (var state in states.StateMoviments)
-                if(!state.Key.NodeProperties.WasVisited)
+                if(!vencedor.ContainsKey(state.Key))
                     RecursiveDepthSearch(state.Key, states);
 
             return states;
         }
 
-        private bool RecursiveDepthSearch(State currentState, StateMovimentEnumeration statesEnumeration)
+        private void RecursiveDepthSearch(State currentState, StateMovimentEnumeration statesEnumeration)
         {
-            if (currentState.NodeProperties.WasVisited)
-                return currentState.NodeProperties.HasWinningStrategy;
+            // mark as visited
+            vencedor.Add(currentState, 1);
 
-            if (currentState.IsTerminal())
+            // no terminal node has a winning strategy
+            if (currentState.IsGameOver())
             {
-                currentState.NodeProperties.WasVisited = true;
-                currentState.NodeProperties.HasWinningStrategy = false;
-                return currentState.NodeProperties.HasWinningStrategy;
+                vencedor[currentState] = 2;
+                return;
             }
 
-            bool winningStrategy = false;
             var adjacentStates = statesEnumeration.StateMoviments[currentState];
             foreach (var adjacentState in adjacentStates)
             {
-                var strategy = RecursiveDepthSearch(adjacentState, statesEnumeration);
-                if (strategy == false)
-                {
-                    winningStrategy = true;
-                }
+                if (!vencedor.ContainsKey(adjacentState))
+                    RecursiveDepthSearch(adjacentState, statesEnumeration);
+                if (vencedor[adjacentState] == 2)
+                    vencedor[currentState] = 3;
             }
 
-            currentState.NodeProperties.WasVisited = true;
-            currentState.NodeProperties.HasWinningStrategy = winningStrategy;
-
-            return currentState.NodeProperties.HasWinningStrategy;
+            if (vencedor[currentState] == 1)
+                vencedor[currentState] = 2;
         }
     }
 }

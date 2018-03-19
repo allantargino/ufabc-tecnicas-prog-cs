@@ -56,7 +56,7 @@ namespace Pawns
                     currentState = GetPossibleMoviment(lastState, line);
                 }
 
-                Logger.DrawBoard(currentState);
+                //Logger.DrawBoard(currentState);
             }
 
             Logger.LogLine("Game Over!");
