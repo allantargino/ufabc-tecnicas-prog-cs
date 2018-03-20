@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Dominoes
 {
@@ -19,6 +20,18 @@ namespace Dominoes
             }
 
             var solution = BackTracking(dominoes, new List<Domino>(), k);
+            var content = GetWriteSolution(solution);
+            Console.WriteLine(content);
+        }
+
+        static string GetWriteSolution(IList<Domino> solution)
+        {
+            var builder = new StringBuilder();
+            foreach (var domino in solution)
+            {
+                builder.Append($"{domino[0]} {domino[1]} ");
+            }
+            return builder.ToString();
         }
 
         static IList<Domino> BackTracking(IList<Domino> pool, IList<Domino> solution, int remains)
