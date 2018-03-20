@@ -8,12 +8,10 @@ namespace Dominoes
     [DebuggerDisplay("({Value0}, {Value1})")]
     public class Domino
     {
-        private (int, int) Value { get; private set; }
+        private (int, int) Value { get; }
 
         public int Value0 => Value.Item1;
         public int Value1 => Value.Item2;
-
-        public bool IsRotated { get; private set; }
 
         public Domino(int v0, int v1)
         {
@@ -31,10 +29,9 @@ namespace Dominoes
             }
         }
 
-        public void Rotate()
+        public Domino Rotate()
         {
-            IsRotated = !IsRotated;
-            Value = (Value1, Value0);
+            return new Domino(Value1, Value0);
         }
     }
 }
