@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Dominoes
 {
@@ -18,7 +19,19 @@ namespace Dominoes
                 dominoes.Add(InputProcessor.ExtractDomino(dominoLine));
             }
 
-            BackTracking(dominoes, new List<Domino>(), k);
+            var solution = BackTracking(dominoes, new List<Domino>(), k);
+            var content = GetWriteSolution(solution);
+            Console.WriteLine(content);
+        }
+
+        static string GetWriteSolution(IList<Domino> solution)
+        {
+            var builder = new StringBuilder();
+            foreach (var domino in solution)
+            {
+                builder.Append($"{domino[0]} {domino[1]} ");
+            }
+            return builder.ToString();
         }
 
         static IList<Domino> BackTracking(IList<Domino> pool, IList<Domino> solution, int remains)
@@ -26,17 +39,49 @@ namespace Dominoes
             if (remains == 0)
                 return solution;
 
-            var newDomino = pool[0];
-            var lastDomino = solution.GetLastElement();
-
-            if (CompareCompatibility(lastDomino, newDomino))
+            for (int i = 0; i < pool.Count; i++)
             {
+                var newDomino = pool[i];
+                var lastDomino = solution.GetLastElement();
 
+                if (CompareCompatibility(lastDomino, newDomino))
+                {
+                    var index = pool.IndexOf(newDomino);
+                    pool.Remove(newDomino);
+                    solution.Add(newDomino);
+                    var res = BackTracking(pool, solution, --remains);
+                    if(res == null)
+                    {
+                        solution.Remove(newDomino);
+                        pool.Insert(index, newDomino);
+                        remains++;
+                    }
+                    else
+                    {
+                        return res;
+                    }
+                }
+
+                if (CompareCompatibility(lastDomino, newDomino.Rotate()))
+                {
+                    pool.Remove(newDomino);
+                    var rotate = newDomino.Rotate();
+                    solution.Add(rotate);
+                    var res = BackTracking(pool, solution, --remains);
+                    if (res == null)
+                    {
+                        solution.Remove(rotate);
+                        pool.Add(newDomino);
+                        remains++;
+                    }
+                    else
+                    {
+                        return res;
+                    }
+                }
             }
-            else if (CompareCompatibility(lastDomino, newDomino.Rotate()){
 
-            }
-
+            return null;
         }
 
         public static Domino GetLastElement(this IList<Domino> dominoes)
