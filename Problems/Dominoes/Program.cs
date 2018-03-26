@@ -9,7 +9,7 @@ namespace Dominoes
     {
         static void Main(string[] args)
         {
-            var parametersLine = Console.ReadLine().Substring(3, 3); //hack
+            var parametersLine = Console.ReadLine()/*.Substring(3, 3)*/; //hack
             (int n, int k) = InputProcessor.ExtractParameters(parametersLine);
 
             var dominoes = new List<Domino>();
@@ -20,18 +20,22 @@ namespace Dominoes
             }
 
             var solution = BackTracking(dominoes, new List<Domino>(), k);
-            var content = GetWriteSolution(solution);
-            Console.WriteLine(content);
+            WriteSolution(solution);
         }
 
-        static string GetWriteSolution(IList<Domino> solution)
+        static void WriteSolution(IList<Domino> solution)
         {
+            if (solution == null)
+                return;
+
             var builder = new StringBuilder();
             foreach (var domino in solution)
             {
                 builder.Append($"{domino[0]} {domino[1]} ");
             }
-            return builder.ToString();
+
+            Console.WriteLine(builder.ToString());
+
         }
 
         static IList<Domino> BackTracking(IList<Domino> pool, IList<Domino> solution, int remains)
