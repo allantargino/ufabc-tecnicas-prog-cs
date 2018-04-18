@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -9,8 +10,11 @@ namespace Dominoes
     {
         static void Main(string[] args)
         {
-            var parametersLine = Console.ReadLine()/*.Substring(3, 3)*/; //hack
-            (int n, int k) = InputProcessor.ExtractParameters(parametersLine);
+            var parametersLine = Console.ReadLine();
+            var parameters = InputProcessor.ExtractParameters(parametersLine);
+
+            int n = parameters.Item1;
+            int k = parameters.Item2;
 
             var dominoes = new List<Domino>();
             for (int i = 0; i < n; i++)
@@ -102,14 +106,6 @@ namespace Dominoes
         }
 
 
-
-        static bool IsFinalCorrect(IList<Domino> dominoes, int k)
-        {
-            if (IsPartialCorrect(dominoes) && dominoes.Count == k)
-                return true;
-            return false;
-        }
-
         static bool IsPartialCorrect(IList<Domino> dominoes)
         {
             var last = dominoes[0];
@@ -120,6 +116,51 @@ namespace Dominoes
                 last = dominoes[i];
             }
             return true;
+        }
+    }
+
+    [DebuggerDisplay("({Value0}, {Value1})")]
+    public class Domino
+    {
+        private Tuple<int,int> Value { get; }
+
+        public int Value0 => Value.Item1;
+        public int Value1 => Value.Item2;
+
+        public Domino(int v0, int v1)
+        {
+            Value = new Tuple<int,int>(v0, v1);
+        }
+
+        public int this[int index]
+        {
+            get
+            {
+                if (index < 0 || index > 1) throw new IndexOutOfRangeException("Index allowed: 0 or 1");
+                if (index == 0)
+                    return Value0;
+                return Value1;
+            }
+        }
+
+        public Domino Rotate()
+        {
+            return new Domino(Value1, Value0);
+        }
+    }
+
+    public static class InputProcessor
+    {
+        public static Tuple<int,int> ExtractParameters(string parametersLine)
+        {
+            string[] values = parametersLine.Split(' ');
+            return new Tuple<int,int>(int.Parse(values[0]), int.Parse(values[1]));
+        }
+
+        public static Domino ExtractDomino(string dominoLine)
+        {
+            var values = dominoLine.Split(' ');
+            return new Domino(int.Parse(values[0]), int.Parse(values[1]));
         }
     }
 }
