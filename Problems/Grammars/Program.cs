@@ -33,6 +33,7 @@ namespace Grammars
         static int n = 0;
 
         static int result = 0;
+        static int classificacao = 3;
 
         static TokenType next_token()
         {
@@ -255,7 +256,7 @@ namespace Grammars
         {
             try
             {
-                //input = File.ReadAllText(@"C:\Users\altargin\Downloads\grammar\in\file29");
+                //input = File.ReadAllText(@"C:\Users\altargin\Downloads\grammar\in\file58");
                 input = ReadInput();
                 n = input.Length;
 
@@ -270,7 +271,7 @@ namespace Grammars
             }
 
             if (result == 0)
-                Console.WriteLine("CORRETO");
+                Console.WriteLine($"CORRETO {classificacao}");
             else
                 Console.WriteLine("ERRO");
         }
