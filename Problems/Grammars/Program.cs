@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Grammars
@@ -7,13 +8,14 @@ namespace Grammars
     {
         enum TokenType
         {
-            EOF=-1,
-            EOL=0,
+            EOF = -1,
+            EOL = 0,
             FLECHA,
             LETRAMAISCULA,
             SINALMENOR,
             SINALMAIOR,
             TERMINAL,
+            VAZIO,
             UNKNOWN
         };
 
@@ -32,6 +34,8 @@ namespace Grammars
 
         static int result = 0;
 
+        static int stack_overflow_guard = 0;
+
         static TokenType next_token()
         {
             int pos = token.position + token.length;
@@ -41,14 +45,17 @@ namespace Grammars
             while (pos < n && ((c = input[pos]) == ' ' || c == '\t' || c == '\r'))
                 pos++;
 
-            if (c > 0)
-                Console.Write("pos: {0},", pos);
-
             token.position = pos;
             token.length = 1;
 
             if (pos >= n)
                 return token.ttype = TokenType.EOF;
+
+            if (token.ttype == TokenType.FLECHA && c == '\n')
+            {
+                token.position--;
+                return token.ttype = TokenType.VAZIO;
+            }
 
             switch (c)
             {
@@ -79,20 +86,178 @@ namespace Grammars
         }
 
 
-        static void Main()
+        static void gramatica()
         {
-            input = ReadInput();
-            n = input.Length;
+            if (result == -1)
+                return;
 
-            Console.WriteLine("Eu li:");
-            Console.Write(input);
+            regra();
 
-            Console.WriteLine("Eu reconheci");
+            TOKEN t = token;
 
-            token.position = -token.length;
+            if (t.ttype == TokenType.EOF)
+                return;
+
+            gramatica();
+        }
+
+        static void regra()
+        {
+            if (result == -1)
+                return;
+
+            sentenca1();
+
+            TOKEN t = token;
+
+            if (t.ttype != TokenType.FLECHA)
+            {
+                result = -1;
+                return;
+            }
+
             next_token();
 
-            //gramatica();
+            sentenca2();
+
+            if (token.ttype != TokenType.EOL)
+                result = -1;
+            else
+                next_token();
+            return;
+        }
+
+        static void sentenca1()
+        {
+            if (result == -1)
+                return;
+
+            elemento();
+
+            //sentenca2();
+        }
+
+        static void sentenca2()
+        {
+            if (result == -1)
+                return;
+
+            TOKEN t = token;
+
+            if (t.ttype == TokenType.VAZIO)
+            {
+                next_token();
+                return;
+            }
+
+            if (t.ttype == TokenType.EOL)
+                return;
+
+            elemento();
+
+            sentenca2();
+        }
+
+        static void elemento()
+        {
+            if (result==-1)
+                return;
+
+            if (token.ttype == TokenType.TERMINAL)
+            {
+                next_token();
+                return;
+            }
+
+            variavel();
+        }
+
+        static void variavel()
+        {
+            //if (stack_overflow_guard++ > 10000)
+            //    return;
+            if (result == -1)
+                return;
+
+            if (token.ttype == TokenType.LETRAMAISCULA)
+            {
+                next_token();
+                return;
+            }
+
+            if (token.ttype != TokenType.SINALMENOR)
+            {
+                result = -1;
+                return;
+            }
+
+            next_token();
+
+            id();
+
+            if (token.ttype != TokenType.SINALMAIOR)
+                result = -1;
+            else
+                next_token();
+            return;
+        }
+
+        static void id()
+        {
+            if (result == -1)
+                return;
+
+            TOKEN t = token;
+
+            if (t.ttype != TokenType.TERMINAL)
+            {
+                result = -1;
+                return;
+            }
+
+            next_token();
+
+            id_linha();
+        }
+
+        static void id_linha()
+        {
+            if (result == -1)
+                return;
+
+            TOKEN t = token;
+
+            if (t.ttype == TokenType.SINALMAIOR)
+                return;
+
+            if (t.ttype != TokenType.TERMINAL)
+            {
+                result = -1;
+                return;
+            }
+
+            next_token();
+
+            id_linha();
+        }
+
+        static void Main()
+        {
+            try
+            {
+                //input = File.ReadAllText(@"C:\Users\altargin\Downloads\grammar\in\file46");
+                input = ReadInput();
+                n = input.Length;
+
+                token.position = -token.length;
+                next_token();
+
+                gramatica();
+            }
+            catch (Exception)
+            {
+                result = -1;
+            }
 
             if (result == 0)
                 Console.WriteLine("CORRETO");
