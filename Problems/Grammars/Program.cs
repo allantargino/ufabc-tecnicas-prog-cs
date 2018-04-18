@@ -34,8 +34,6 @@ namespace Grammars
 
         static int result = 0;
 
-        static int stack_overflow_guard = 0;
-
         static TokenType next_token()
         {
             int pos = token.position + token.length;
@@ -75,29 +73,43 @@ namespace Grammars
                 return token.ttype = TokenType.LETRAMAISCULA;
             }
 
-            if (c == '-' && input[pos + 1] == '-' && input[pos + 2] == '>')
+            if (pos + 4 < n)
             {
-                pos += 2;
-                token.length += 2;
-                return token.ttype = TokenType.FLECHA;
+                if (c == '-' && input[pos + 1] == '-' && input[pos + 2] == '-' && input[pos + 3] == '-' && input[pos + 4] == '>')
+                {
+                    pos += 4;
+                    token.length += 4;
+                    return token.ttype = TokenType.FLECHA;
+                }
+            }
+
+            if(pos +2 < n)
+            {
+                if (c == '-' && input[pos + 1] == '-' && input[pos + 2] == '>')
+                {
+                    pos += 2;
+                    token.length += 2;
+                    return token.ttype = TokenType.FLECHA;
+                }
             }
 
             return token.ttype = TokenType.TERMINAL;
         }
 
 
+        static int linha = 1;
         static void gramatica()
         {
             if (result == -1)
                 return;
 
             regra();
-
             TOKEN t = token;
 
             if (t.ttype == TokenType.EOF)
                 return;
 
+            linha++;
             gramatica();
         }
 
@@ -160,7 +172,7 @@ namespace Grammars
 
         static void elemento()
         {
-            if (result==-1)
+            if (result == -1)
                 return;
 
             if (token.ttype == TokenType.TERMINAL)
@@ -174,8 +186,6 @@ namespace Grammars
 
         static void variavel()
         {
-            //if (stack_overflow_guard++ > 10000)
-            //    return;
             if (result == -1)
                 return;
 
@@ -245,7 +255,7 @@ namespace Grammars
         {
             try
             {
-                //input = File.ReadAllText(@"C:\Users\altargin\Downloads\grammar\in\file46");
+                //input = File.ReadAllText(@"C:\Users\altargin\Downloads\grammar\in\file29");
                 input = ReadInput();
                 n = input.Length;
 
