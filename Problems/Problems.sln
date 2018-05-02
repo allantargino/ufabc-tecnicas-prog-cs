@@ -5,9 +5,17 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pawns", "Pawns\Pawns.csproj", "{EFADAB65-14BD-4943-BDCB-6B13B9ED5F8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominoes", "Dominoes\Dominoes.csproj", "{7F58BD68-02F2-4E6D-936D-5EF0BF2EA34A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dominoes", "Dominoes\Dominoes.csproj", "{7F58BD68-02F2-4E6D-936D-5EF0BF2EA34A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammars", "Grammars\Grammars.csproj", "{9E874852-5BAF-42C0-8692-E436C01A7C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grammars", "Grammars\Grammars.csproj", "{9E874852-5BAF-42C0-8692-E436C01A7C8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GraphCover", "GraphCover", "{CAFE9B54-3B0B-4E60-8B4C-59B547FD8901}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTShirtSuitsMe", "MyTShirtSuitsMe\MyTShirtSuitsMe.csproj", "{2EB0F109-4252-4976-90B4-6FE35E8500B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UncleTomsInheritedLand", "UncleTomsInheritedLand\UncleTomsInheritedLand.csproj", "{AF01CE29-BA5C-4584-B520-90AAFD171C27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactorsandMultiples", "FactorsandMultiples\FactorsandMultiples.csproj", "{AEF46E2B-DF1D-43A3-A9BC-FB39F21DD796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +35,26 @@ Global
 		{9E874852-5BAF-42C0-8692-E436C01A7C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E874852-5BAF-42C0-8692-E436C01A7C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E874852-5BAF-42C0-8692-E436C01A7C8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB0F109-4252-4976-90B4-6FE35E8500B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB0F109-4252-4976-90B4-6FE35E8500B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB0F109-4252-4976-90B4-6FE35E8500B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB0F109-4252-4976-90B4-6FE35E8500B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF01CE29-BA5C-4584-B520-90AAFD171C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF01CE29-BA5C-4584-B520-90AAFD171C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF01CE29-BA5C-4584-B520-90AAFD171C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF01CE29-BA5C-4584-B520-90AAFD171C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF46E2B-DF1D-43A3-A9BC-FB39F21DD796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF46E2B-DF1D-43A3-A9BC-FB39F21DD796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF46E2B-DF1D-43A3-A9BC-FB39F21DD796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF46E2B-DF1D-43A3-A9BC-FB39F21DD796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2EB0F109-4252-4976-90B4-6FE35E8500B5} = {CAFE9B54-3B0B-4E60-8B4C-59B547FD8901}
+		{AF01CE29-BA5C-4584-B520-90AAFD171C27} = {CAFE9B54-3B0B-4E60-8B4C-59B547FD8901}
+		{AEF46E2B-DF1D-43A3-A9BC-FB39F21DD796} = {CAFE9B54-3B0B-4E60-8B4C-59B547FD8901}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {133F5878-D303-40FC-85B2-03DA7054A586}
