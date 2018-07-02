@@ -40,7 +40,7 @@ class URI
 
     static int ClickPoints(IList<Segment> segments, int index)
     {
-        return (int)Math.Pow(segments[index].Blocks, 2);
+        return segments[index].Blocks * segments[index].Blocks;
     }
 
     static IList<Segment> Click(IList<Segment> segments, int index)
